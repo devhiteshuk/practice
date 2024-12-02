@@ -1,5 +1,11 @@
 from sqlalchemy import create_engine
 import pandas as pd
+# Using flask to make an api 
+# import necessary libraries and functions 
+from flask import Flask, jsonify, request 
+
+# creating a Flask app 
+app = Flask(__name__) 
 
 filePath = "D:\\SampleData\\uk_cities.csv"
 myTableName = "UKCityMaster"
@@ -40,6 +46,12 @@ def close_connection(engine):
     if engine:
         engine.dispose()
         print("PostgreSQL connection is closed.")
+
+
+@app.route('/', methods = ['GET', 'POST']) 
+def home(df): 
+	if(request.method == 'GET'): 
+		return jsonify({'data': df}) 
 
 def main():
     engine = connect_to_postgres()
